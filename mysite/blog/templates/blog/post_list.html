@@ -1,39 +1,14 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+{% extends 'blog/base.html' %}   <!-- Attaching this file with base.html -->
 
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-    <link href="https://fonts.googleapis.com/css?family=Lobster&subset=latin,cyrillic" rel="stylesheet" type="text/css">
-    {% load static %}   <!-- for reading static files-->
-    <link rel="stylesheet" href="{% static 'css/blog.css' %}">
-
-    <title>Vadym's blog</title>
-</head>
-<body>
-        <div class="page-header">
-            <h1><a href="https://en.wikipedia.org/wiki/Django" class="external_link" id="link_to_wiki_page">Django Girls Blog</a></h1>
-        </div>
-
-        <div class="content container">
-            <div class="row">
-                <div class="col-md-8">
-                    {% for post in posts %}
-                        <div class="post">
-                            <div class="date">
-                                <p>Опубликовано: {{ post.published_date }}</p>
-                            </div>
-                            <h1><a href="">{{ post.title }}</a></h1>
-                            <p>{{ post.text|linebreaksbr }}</p>
-                        </div>
-                    {% endfor %}
-                </div>
+{% block content %}
+    {% for post in posts %}
+        <div class="post">
+            <div class="date">
+                <p>Опубликовано: {{ post.published_date }}</p>
             </div>
+<!-- pk (primary key) - первичный ключ, который Django создал за нас (1,2,3,4,...) и добавил поле pk к каждой записи -->
+            <h1><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h1>
+            <p>{{ post.text|linebreaksbr }}</p>
         </div>
-
-    </body>
-</html>
+    {% endfor %}
+{% endblock %}
