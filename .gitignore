@@ -1,0 +1,7 @@
+*.рус
+*~
+__pycache__
+venv
+db.sqlite3
+/static
+.DB_Store
