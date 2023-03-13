@@ -1,0 +1,22 @@
+{% extends 'blog/base.html' %}   <!-- Attaching this file with base.html -->
+
+{% block content %}
+
+<div data-gb-custom-block data-tag="extends" data-0='blog/base.html'></div>
+
+<div data-gb-custom-block data-tag="block"></div>
+
+
+<div data-gb-custom-block data-tag="for">
+    {% for post in posts %}
+    <div class="post">
+        <p class="date">created: {{ post.created_date|date:'d-m-Y' }}</p>
+        <h1>
+            <a href="{% url 'post_detail' pk=post.pk %}">
+            <div data-gb-custom-block data-tag="url" data-0='post_detail'>{{ post.title }}</div></a>
+        </h1>
+        <p>{{ post.text|truncatechars:200 }}</p>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
