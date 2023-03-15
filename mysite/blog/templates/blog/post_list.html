@@ -1,14 +1,16 @@
 {% extends 'blog/base.html' %}   <!-- Attaching this file with base.html -->
 
 {% block content %}
-    {% for post in posts %}
-        <div class="post">
-            <div class="date">
-                <p>Опубликовано: {{ post.published_date }}</p>
-            </div>
-<!-- pk (primary key) - первичный ключ, который Django создал за нас (1,2,3,4,...) и добавил поле pk к каждой записи -->
-            <h1><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h1>
-            <p>{{ post.text|linebreaksbr }}</p>
-        </div>
-    {% endfor %}
+{% for post in posts %}
+<div class="post">
+    <div class="date">
+        <p>Опубликовано: {{ post.published_date }}</p>
+    </div>
+    <!-- pk (primary key) - первичный ключ, который Django создал за нас (1,2,3,4,...) и добавил поле pk к каждой записи -->
+    <h1><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h1>
+    <a href="">Comments: {{ post.approved_comments.count }}</a>
+
+    <p>{{ post.text|linebreaksbr }}</p>
+</div>
+{% endfor %}
 {% endblock %}

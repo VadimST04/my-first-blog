@@ -1,16 +1,68 @@
 {% extends 'blog/base.html' %}
 
 {% block content %}
-    <div class="post">
-        {% if post.published_date %}
-            <div class="date">
-                {{ post.published_date }}
-            </div>
-        {% endif %}
-        {% if user.is_authenticated %}
-        <a class="btn btn-default" href="{% url 'post_edit' pk=post.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
-        {% endif %}
-        <h1>{{ post.title }}</h1>
-        <p>{{ post.text|linebreaksbr }}</p>
+<div class="post">
+    <div data-gb-custom-block data-tag="if"></div>
+    {% if post.published_date %}
+    <div class="date">
+        {{ post.published_date }}
     </div>
+    {% else %}
+    <div data-gb-custom-block data-tag="else"></div>
+    <div data-gb-custom-block data-tag="url" data-0='post_publish'>
+        <div class="pull-right">
+            <a class="btn btn-default" href="{% url 'post_publish' pk=post.pk %}">Publish</a>
+        </div>
+    </div>
+    {% endif %}
+    {% if user.is_authenticated %}
+    <div class="pull-right">
+        <a class="btn btn-default" href="{% url 'post_edit' pk=post.pk %}">
+            <span class="glyphicon glyphicon-pencil"></span>
+        </a>
+        <a class="btn btn-default" href="{% url 'post_list' %}">
+            <div data-gb-custom-block data-tag="url" data-0='post_remove'></div>
+            <span class="glyphicon glyphicon-remove"></span>
+        </a>
+    </div>
+    {% endif %}
+    <h1>{{ post.title }}</h1>
+    <p>{{ post.text|linebreaksbr }}</p>
+</div>
+
+<hr>
+
+<div data-gb-custom-block data-tag="url" data-0='add_comment_to_post'></div>
+<a class="btn btn-default" href="{% url 'add_comment_to_post' pk=post.pk %}">Add comment</a>
+
+{% if comments %}
+<div data-gb-custom-block data-tag="for"></div>
+{% for comment in comments %}
+<div class="comment">
+    <div class="date">
+        {{ comment.created_date }}
+        <a class="btn btn-default" href="{% url 'comment_remove' pk=comment.pk %}">
+            <div data-gb-custom-block data-tag="url" data-0='comment_remove'><span
+                    class="glyphicon glyphicon-remove"></span></div>
+        </a>
+        {% if not comment.approved_comment %}
+        <div data-gb-custom-block data-tag="if"></div>
+        <a class="btn btn-default" href="{% url 'comment_approve' pk=comment.pk %}">
+            <div data-gb-custom-block data-tag="url" data-0='comment_approve'><span
+                    class="glyphicon glyphicon-ok"></span></div>
+        </a>
+        {% endif %}
+    </div>
+
+</div>
+<strong>{{ comment.author }}</strong>
+<p>{{ comment.text|linebreaks }}</p>
+{% endfor %}
+{% else %}
+<div data-gb-custom-block data-tag="empty">
+
+    <p>No comments here yet :(</p>
+
+</div>
+{% endif %}
 {% endblock %}
