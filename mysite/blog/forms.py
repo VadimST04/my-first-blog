@@ -1,5 +1,5 @@
 from django import forms
-from .models import Post
+from .models import Post, Comment
 
 
 class PostForm(forms.ModelForm):
@@ -7,9 +7,13 @@ class PostForm(forms.ModelForm):
         model = Post
         fields = ('title', 'text',)
 
-        from django import forms
-
 
 class LoginForm(forms.Form):
     username = forms.CharField(label="Username", widget=forms.TextInput(attrs={'class': 'form-floating'}))
     password = forms.CharField(label="Password", widget=forms.PasswordInput(attrs={'class': 'form-floating'}))
+
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ('author', 'text',)
